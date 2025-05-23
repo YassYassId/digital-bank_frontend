@@ -1,0 +1,25 @@
+<header class="bg-white shadow-md z-10">
+  <div class="flex justify-between items-center px-6 py-4 max-w-7xl mx-auto">
+    <!-- Logo -->
+    <div class="text-xl font-bold text-gray-800">eBanking</div>
+
+    <!-- Auth Button -->
+    <div>
+      @if (isLoggedIn()) {
+      <button
+        (click)="signOut()"
+        class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+      >
+        Sign Out
+      </button>
+      } @else {
+      <a
+        routerLink="/signin"
+        class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
+      >
+        Sign In
+      </a>
+      }
+    </div>
+  </div>
+</header>

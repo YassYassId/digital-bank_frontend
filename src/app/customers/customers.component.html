@@ -1,0 +1,126 @@
+<div class="p-8 bg-gradient-to-br from-blue-50 to-white min-h-screen">
+  <div
+    class="flex flex-col md:flex-row md:items-center md:justify-between mb-8 gap-4"
+  >
+    <div>
+      <h2 class="text-4xl font-black text-blue-900 flex items-center gap-2">
+        <span class="bg-blue-100 rounded-full p-2 text-blue-600">👤</span>
+        Customers
+      </h2>
+      <p class="text-gray-500 mt-1">
+        Manage your customers and their information.
+      </p>
+    </div>
+    <button
+      (click)="router.navigate(['/customers/new'])"
+      class="bg-gradient-to-r from-green-500 to-green-700 text-white px-8 py-3 rounded-xl shadow-lg hover:scale-105 hover:shadow-xl transition-all font-bold text-lg flex items-center gap-2"
+    >
+      <span class="text-2xl">+</span> Add Customer
+    </button>
+  </div>
+
+  <div class="flex flex-col md:flex-row items-center gap-2 mb-8">
+    <div class="flex w-full md:w-auto">
+      <input
+        [(ngModel)]="searchKeyword"
+        (keyup.enter)="searchCustomers()"
+        type="text"
+        placeholder="🔍 Search by name or email..."
+        class="w-full md:w-96 px-5 py-3 border border-gray-300 rounded-l-xl focus:outline-none focus:ring-2 focus:ring-blue-400 text-lg shadow-sm"
+      />
+      <button
+        (click)="searchCustomers()"
+        class="bg-blue-600 text-white px-6 py-3 rounded-r-xl hover:bg-blue-700 transition font-semibold text-lg"
+      >
+        Search
+      </button>
+    </div>
+    <button
+      *ngIf="searchKeyword"
+      (click)="searchKeyword = ''; fetchCustomers()"
+      class="ml-2 px-4 py-3 bg-gray-200 rounded-xl hover:bg-gray-300 transition text-lg"
+      title="Clear"
+    >
+      ✖
+    </button>
+  </div>
+
+  <div *ngIf="loading" class="flex justify-center items-center py-16">
+    <div
+      class="animate-spin rounded-full h-12 w-12 border-t-4 border-blue-600"
+    ></div>
+    <span class="ml-6 text-blue-700 font-bold text-xl">Loading...</span>
+  </div>
+
+  <div
+    *ngIf="!loading && customers.length === 0"
+    class="text-center text-gray-400 py-16"
+  >
+    <span class="text-3xl font-semibold">No customers found.</span>
+  </div>
+
+  <div
+    *ngIf="!loading && customers.length > 0"
+    class="overflow-x-auto shadow-2xl rounded-2xl bg-white"
+  >
+    <table class="min-w-full divide-y divide-gray-200">
+      <thead class="bg-blue-100">
+        <tr>
+          <th
+            class="py-4 px-6 text-left text-base font-extrabold text-blue-800"
+          >
+            ID
+          </th>
+          <th
+            class="py-4 px-6 text-left text-base font-extrabold text-blue-800"
+          >
+            Name
+          </th>
+          <th
+            class="py-4 px-6 text-left text-base font-extrabold text-blue-800"
+          >
+            Email
+          </th>
+          <th
+            class="py-4 px-6 text-left text-base font-extrabold text-blue-800"
+          >
+            Actions
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let customer of customers"
+          class="hover:bg-blue-50 border-b transition group"
+        >
+          <td class="py-4 px-6 font-mono text-lg text-blue-900">
+            {{ customer.id }}
+          </td>
+          <td class="py-4 px-6 font-semibold text-lg flex items-center gap-2">
+            <span
+              class="inline-flex items-center justify-center h-8 w-8 rounded-full bg-blue-200 text-blue-700 font-bold text-base"
+            >
+              {{ customer.name.charAt(0) | uppercase }}
+            </span>
+            {{ customer.name }}
+          </td>
+          <td class="py-4 px-6 text-lg">{{ customer.email }}</td>
+          <td class="py-4 px-6 space-x-2">
+            <button
+              (click)="router.navigate(['/customers/edit', customer.id])"
+              class="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition font-semibold text-base shadow group-hover:scale-105"
+            >
+              ✏️ Edit
+            </button>
+            <button
+              (click)="deleteCustomer(customer.id)"
+              class="bg-red-600 text-white px-5 py-2 rounded-lg hover:bg-red-700 transition font-semibold text-base shadow group-hover:scale-105"
+            >
+              🗑️ Delete
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
