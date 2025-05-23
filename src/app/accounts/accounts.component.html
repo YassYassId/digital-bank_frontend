@@ -1,0 +1,161 @@
+<div class="p-6 min-h-screen bg-gradient-to-br from-blue-50 to-white">
+  <div class="max-w-6xl mx-auto">
+    <div class="flex items-center justify-between mb-8">
+      <h2 class="text-3xl font-extrabold text-gray-800 tracking-tight">
+        Accounts
+      </h2>
+      <button
+        (click)="router.navigate(['/accounts/new'])"
+        class="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-6 py-2 rounded-lg shadow-lg hover:scale-105 hover:from-green-600 hover:to-emerald-700 transition-all duration-200 font-semibold text-lg"
+      >
+        <span class="inline-block align-middle mr-2">➕</span> Add Account
+      </button>
+    </div>
+
+    <div
+      class="bg-white rounded-2xl shadow-2xl overflow-x-auto border border-gray-100"
+    >
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gradient-to-r from-blue-100 to-blue-50">
+          <tr>
+            <th
+              class="py-4 px-6 text-left text-xs font-bold text-gray-600 uppercase tracking-wider"
+            >
+              Account ID
+            </th>
+            <th
+              class="py-4 px-6 text-left text-xs font-bold text-gray-600 uppercase tracking-wider"
+            >
+              Balance
+            </th>
+            <th
+              class="py-4 px-6 text-left text-xs font-bold text-gray-600 uppercase tracking-wider"
+            >
+              Type
+            </th>
+            <th
+              class="py-4 px-6 text-left text-xs font-bold text-gray-600 uppercase tracking-wider"
+            >
+              Owner
+            </th>
+            <th
+              class="py-4 px-6 text-left text-xs font-bold text-gray-600 uppercase tracking-wider"
+            >
+              Status
+            </th>
+            <th
+              class="py-4 px-6 text-left text-xs font-bold text-gray-600 uppercase tracking-wider"
+            >
+              Details
+            </th>
+            <th
+              class="py-4 px-6 text-left text-xs font-bold text-gray-600 uppercase tracking-wider"
+            >
+              Actions
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="let account of accounts; let i = index"
+            [ngClass]="i % 2 === 0 ? 'bg-white' : 'bg-blue-50'"
+            class="hover:bg-blue-100 transition-colors duration-150 border-b border-gray-100"
+          >
+            <td class="py-4 px-6 font-mono text-xs text-gray-700 break-all">
+              {{ account.id }}
+            </td>
+            <td class="py-4 px-6 text-lg font-semibold text-blue-700">
+              {{ account.balance | currency }}
+            </td>
+            <td class="py-4 px-6">
+              <span
+                class="inline-block px-3 py-1 rounded-full text-xs font-medium"
+                [ngClass]="{
+                  'bg-blue-100 text-blue-700':
+                    account.type === 'CurrentAccount',
+                  'bg-yellow-100 text-yellow-700':
+                    account.type === 'SavingAccount'
+                }"
+              >
+                {{ account.type === "CurrentAccount" ? "Current" : "Saving" }}
+              </span>
+            </td>
+            <td class="py-4 px-6 flex items-center space-x-3">
+              <div
+                class="w-9 h-9 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center text-white font-bold text-base shadow"
+              >
+                {{
+                  account.customerDTO.name
+                    ? account.customerDTO.name.charAt(0).toUpperCase()
+                    : "?"
+                }}
+              </div>
+              <div>
+                <div class="font-semibold text-gray-800">
+                  {{ account.customerDTO.name }}
+                </div>
+                <div class="text-xs text-gray-500">
+                  {{ account.customerDTO.email }}
+                </div>
+              </div>
+            </td>
+            <td class="py-4 px-6">
+              <span
+                class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold"
+                [ngClass]="{
+                  'bg-green-100 text-green-700': account.status === 'ACTIVATED',
+                  'bg-yellow-100 text-yellow-700': account.status === 'CREATED',
+                  'bg-red-100 text-red-700': account.status === 'SUSPENDED',
+                  'bg-gray-200 text-gray-400': !account.status
+                }"
+              >
+                <span *ngIf="account.status === 'ACTIVATED'" class="mr-1"
+                  >✔️</span
+                >
+                <span *ngIf="account.status === 'CREATED'" class="mr-1"
+                  >🕒</span
+                >
+                <span *ngIf="account.status === 'SUSPENDED'" class="mr-1"
+                  >⛔</span
+                >
+                {{ account.status || "No status" }}
+              </span>
+            </td>
+            <td class="py-4 px-6 text-sm">
+              <div *ngIf="account.type === 'SavingAccount'">
+                <span class="font-medium text-gray-700">Interest Rate:</span>
+                <span class="text-blue-700">{{ account.interestRate }}%</span>
+              </div>
+              <div *ngIf="account.type === 'CurrentAccount'">
+                <span class="font-medium text-gray-700">Overdraft Limit:</span>
+                <span class="text-blue-700">{{
+                  account.overDraft | currency
+                }}</span>
+              </div>
+              <div class="text-xs text-gray-400 mt-1">
+                <span class="font-medium">Created:</span>
+                {{ account.createdAt | date : "mediumDate" }}
+              </div>
+            </td>
+            <td class="py-4 px-6 space-x-2">
+              <button
+                (click)="editAccount(account)"
+                class="bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow transition-all duration-150 font-semibold"
+                title="Edit"
+              >
+                ✏️
+              </button>
+              <button
+                (click)="deleteAccount(account.id)"
+                class="bg-red-500 hover:bg-red-700 text-white px-4 py-2 rounded-lg shadow transition-all duration-150 font-semibold"
+                title="Delete"
+              >
+                🗑️
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
