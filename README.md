@@ -1,59 +1,130 @@
-# DigitalBankFrontend
+# Digital Banking Frontend
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.12.
+A modern **Angular 19+ standalone** frontend for a digital banking system. This project features customer management, account management, and transaction operations, all with a clean, responsive UI using Tailwind CSS. It is designed for maintainability, modularity, and a great user experience.
 
-## Development server
+---
 
-To start a local development server, run:
+## 🚀 Features
 
-```bash
-ng serve
+- **Authentication**: JWT-based sign-in, route protection, and token refresh.
+- **Customers**: List, search, add, edit, and delete customers.
+- **Accounts**: List, create, edit, and delete bank accounts (Saving/Current).
+- **Transactions**: Debit, credit, transfer, and view transaction history.
+- **Responsive UI**: Modern design with Tailwind CSS, mobile-friendly.
+- **Error Handling**: User-friendly error messages and loading indicators.
+- **API Integration**: Connects to a Spring Boot backend (`localhost:8085`).
+- **Angular Standalone**: All components are standalone, no NgModules.
+
+---
+
+## 🏗️ Project Structure
+
+```
+src/
+├── app/
+│   ├── accounts/           # Account management (list, add, edit)
+│   ├── auth/               # Authentication (sign-in)
+│   ├── customers/          # Customer management (list, add, edit)
+│   ├── layout/             # Layout components (header, sidebar, footer)
+│   ├── models/             # TypeScript interfaces (DTOs)
+│   ├── operations/         # Transaction operations (debit, credit, transfer)
+│   ├── services/           # API services (customers, accounts, operations, auth)
+│   ├── guards/             # Route guards (auth)
+│   ├── interceptors/       # HTTP interceptors (JWT)
+│   ├── app.routes.ts       # Angular routes (standalone)
+│   ├── app.config.ts       # Angular application config
+│   └── app.component.ts    # Root component (standalone)
+└── ...
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+---
 
-## Code scaffolding
+## ⚙️ Prerequisites
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+- [Node.js](https://nodejs.org/) (v18+ recommended)
+- [Angular CLI](https://angular.io/cli) (v19+)
+- [Tailwind CSS](https://tailwindcss.com/) (already configured)
+- [Spring Boot Backend](https://github.com/YassYassId/EBanking_backend) running at `http://localhost:8085`
 
-```bash
-ng generate component component-name
-```
+---
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## 🛠️ Setup & Run
 
-```bash
-ng generate --help
-```
+1. **Clone the repository**
 
-## Building
+   ```bash
+   git clone https://github.com/YassYassId/digital-bank-frontend.git
+   cd digital-bank-frontend
+   ```
 
-To build the project run:
+2. **Install dependencies**
 
-```bash
-ng build
-```
+   ```bash
+   npm install
+   ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+3. **Run the development server**
 
-## Running unit tests
+   ```bash
+   ng serve
+   ```
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+   The app will be available at [http://localhost:4200](http://localhost:4200).
 
-```bash
-ng test
-```
+4. **Ensure the backend is running**  
+   The frontend expects the backend API at `http://localhost:8085`.
 
-## Running end-to-end tests
+---
 
-For end-to-end (e2e) testing, run:
+## 🧩 Main Technologies
 
-```bash
-ng e2e
-```
+- **Angular 19+** (standalone components, modern routing, inject API)
+- **Tailwind CSS** (utility-first styling)
+- **RxJS** (reactive programming)
+- **TypeScript** (strict typing)
+- **Spring Boot** (backend, not included here)
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+---
 
-## Additional Resources
+## 🔐 Authentication
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- JWT tokens are stored in `localStorage`.
+- Protected routes use an `authGuard`.
+- HTTP requests automatically include the JWT via an interceptor.
+
+---
+
+## 📁 Notable Files
+
+- `src/app/services/` - API service classes
+- `src/app/models/` - DTO interfaces for type safety
+- `src/app/layout/` - Header, Sidebar, Footer, and Layout components (standalone)
+- `src/app/operations/operations.component.html` - Modern transaction UI
+- `src/app/customers/customers.component.html` - Enhanced customers UI
+- `src/app/app.routes.ts` - Standalone Angular routing
+
+---
+
+## 📝 Customization
+
+- **API URLs**: Change the backend URL in the respective service files if needed.
+- **UI**: Tailwind CSS classes can be easily tweaked for branding or layout changes.
+- **Authentication**: Update the `AuthService` and `UserService` for custom auth flows.
+
+---
+
+## 🤝 Contributing
+
+Pull requests are welcome! For major changes, please open an issue first to discuss what you would like to change.
+
+---
+
+## 👨‍💻 Authors
+
+- [Yassine IDRISSI](https://github.com/YassYassId)
+
+---
+
+## 📞 Support
+
+For questions or support, please open an issue or contact [idrissiy371@gmail.com](mailto:idrissiy371@gmail.com).
